@@ -9,7 +9,7 @@ import {
 } from '@aws-sdk/client-dynamodb';
 
 const docClient = new DynamoDBClient({ region: process.env.REGION || 'eu-north-1' });
-const TABLE_NAME = process.env.TABLE_NAME || 'broker-demo';
+const TABLE_NAME = process.env.TABLE_NAME || 'broker-database';
 
 export class DynamoRepository implements Repository {
   async getData(key: string): Promise<any> {
