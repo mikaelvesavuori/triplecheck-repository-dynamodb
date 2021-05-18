@@ -1,2 +1,2 @@
-import { DynamoRepository } from './DynamoRepository';
-export { DynamoRepository };
+import { createNewDynamoRepository } from './DynamoRepository';
+export { createNewDynamoRepository as DynamoRepository };

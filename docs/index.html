@@ -58,49 +58,65 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#triplecheck-repository-firestore" id="triplecheck-repository-firestore" style="color: inherit; text-decoration: none;">
-					<h1>triplecheck-repository-firestore</h1>
+				<a href="#triplecheck-repository-dynamodb" id="triplecheck-repository-dynamodb" style="color: inherit; text-decoration: none;">
+					<h1>triplecheck-repository-dynamodb</h1>
 				</a>
-				<a href="#triplecheck-firestore-database-repository" id="triplecheck-firestore-database-repository" style="color: inherit; text-decoration: none;">
-					<h2>TripleCheck: Firestore database repository</h2>
+				<p><img src="readme/triplecheck-repository.png" alt="TripleCheck database repository"></p>
+				<a href="#triplecheck-dynamodb-database-repository" id="triplecheck-dynamodb-database-repository" style="color: inherit; text-decoration: none;">
+					<h2>TripleCheck: DynamoDB database repository</h2>
 				</a>
-				<p>Database utility for using Firestore with TripleCheck broker. It implements the repository base at <a href="https://github.com/mikaelvesavuori/triplecheck-core">triplecheck-core</a>.</p>
-				<a href="#instructions" id="instructions" style="color: inherit; text-decoration: none;">
-					<h2>Instructions</h2>
+				<p>Database utility for using DynamoDB with TripleCheck broker. It implements the repository base at <a href="https://github.com/mikaelvesavuori/triplecheck-core">triplecheck-core</a>.</p>
+				<a href="#basic-implementation" id="basic-implementation" style="color: inherit; text-decoration: none;">
+					<h2>Basic implementation</h2>
 				</a>
-				<p><strong>@TODO: Finish</strong></p>
-				<p>In your <code>triplecheck-broker</code> implementation, do a regular import for <code>triplecheck-repository-firestore</code> and pass the repository to the broker. In a local demo context, an implementation could look like:</p>
-				<pre><code class="language-TypeScript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">FirestoreRepository</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;triplecheck-repository-firestore&#039;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">TripleCheckBroker</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;triplecheck-broker&#039;</span><span style="color: #000000">;</span>
+				<p>In your <code>triplecheck-broker</code> implementation, do a regular import for <code>triplecheck-repository-dynamodb</code> and pass the repository to the broker. In a Lambda context, an implementation could look like:</p>
+				<pre><code class="language-TypeScript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">TripleCheckBroker</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;triplecheck-broker&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">DynamoRepository</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;triplecheck-repository-dynamodb&#039;</span><span style="color: #000000">;</span>
 
-<span style="color: #008000">/**</span>
-<span style="color: #008000"> * Implementation example</span>
-<span style="color: #008000"> */</span>
-<span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">demo</span><span style="color: #000000">() {</span>
-<span style="color: #000000">  </span><span style="color: #008000">// Standard setup for Firestore</span>
-<span style="color: #000000">  </span><span style="color: #008000">// Keyfile only really needed when running outside of GCP context</span>
-<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">config</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">    </span><span style="color: #001080">projectId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;your-project-id&#039;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">keyFilename:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;src/keyfile.json&#039;</span>
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">handler</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000">) {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">repository</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DynamoRepository</span><span style="color: #000000">();</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> [</span><span style="color: #0070C1">request</span><span style="color: #000000">, </span><span style="color: #0070C1">payload</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">getRequestData</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">responseData</span><span style="color: #000000">, </span><span style="color: #0070C1">status</span><span style="color: #000000">, </span><span style="color: #0070C1">headers</span><span style="color: #000000"> } = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">TripleCheckBroker</span><span style="color: #000000">(</span><span style="color: #001080">request</span><span style="color: #000000">, </span><span style="color: #001080">payload</span><span style="color: #000000">, </span><span style="color: #001080">repository</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">response</span><span style="color: #000000"> = {</span>
+<span style="color: #000000">    </span><span style="color: #001080">statusCode:</span><span style="color: #000000"> </span><span style="color: #001080">status</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">body:</span><span style="color: #000000"> </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">stringify</span><span style="color: #000000">(</span><span style="color: #001080">responseData</span><span style="color: #000000">),</span>
+<span style="color: #000000">    </span><span style="color: #001080">headers</span>
 <span style="color: #000000">  };</span>
 
-<span style="color: #000000">  </span><span style="color: #008000">// Pass the repo your Firestore configuration and the collection name</span>
-<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">repository</span><span style="color: #000000"> = </span><span style="color: #795E26">FirestoreRepository</span><span style="color: #000000">(</span><span style="color: #001080">config</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;my-collection&#039;</span><span style="color: #000000">);</span>
-
-<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">responseData</span><span style="color: #000000">, </span><span style="color: #0070C1">status</span><span style="color: #000000">, </span><span style="color: #0070C1">headers</span><span style="color: #000000"> } = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">TripleCheckBroker</span><span style="color: #000000">(</span>
-<span style="color: #000000">    </span><span style="color: #001080">request</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">payload</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">repository</span>
-<span style="color: #000000">  );</span>
-
-<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">body:</span><span style="color: #000000"> </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">stringify</span><span style="color: #000000">(</span><span style="color: #001080">responseData</span><span style="color: #000000">),</span>
-<span style="color: #000000">    </span><span style="color: #001080">status</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">headers</span>
-<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">response</span><span style="color: #000000">;</span>
 <span style="color: #000000">}</span>
 
-<span style="color: #795E26">demo</span><span style="color: #000000">();</span>
+<span style="color: #008000">/**</span>
+<span style="color: #008000"> * </span><span style="color: #0000FF">@description</span><span style="color: #008000"> Utility function to get the data we need to run the TripleCheck broker.</span>
+<span style="color: #008000"> * Expects the full AWS Lambda event object.</span>
+<span style="color: #008000"> */</span>
+<span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">getRequestData</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000">): </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">any</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">body</span><span style="color: #000000">, </span><span style="color: #0070C1">httpMethod</span><span style="color: #000000">, </span><span style="color: #0070C1">path</span><span style="color: #000000">, </span><span style="color: #0070C1">queryStringParameters</span><span style="color: #000000"> } = </span><span style="color: #001080">event</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payload</span><span style="color: #000000"> = </span><span style="color: #001080">body</span><span style="color: #000000"> &amp;&amp; </span><span style="color: #0000FF">typeof</span><span style="color: #000000"> </span><span style="color: #001080">body</span><span style="color: #000000"> === </span><span style="color: #A31515">&#039;string&#039;</span><span style="color: #000000"> ? </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">parse</span><span style="color: #000000">(</span><span style="color: #001080">body</span><span style="color: #000000">) : </span><span style="color: #001080">body</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">search</span><span style="color: #000000"> = (() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">_search</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">queryStringParameters</span><span style="color: #000000"> &amp;&amp; </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">stringify</span><span style="color: #000000">(</span><span style="color: #001080">queryStringParameters</span><span style="color: #000000">) !== </span><span style="color: #A31515">&#039;{}&#039;</span><span style="color: #000000">) {</span>
+<span style="color: #000000">      </span><span style="color: #001080">_search</span><span style="color: #000000"> += </span><span style="color: #267F99">Object</span><span style="color: #000000">.</span><span style="color: #795E26">keys</span><span style="color: #000000">(</span><span style="color: #001080">queryStringParameters</span><span style="color: #000000">)[</span><span style="color: #098658">0</span><span style="color: #000000">];</span>
+<span style="color: #000000">      </span><span style="color: #001080">_search</span><span style="color: #000000"> += </span><span style="color: #267F99">Object</span><span style="color: #000000">.</span><span style="color: #795E26">values</span><span style="color: #000000">(</span><span style="color: #001080">queryStringParameters</span><span style="color: #000000">)[</span><span style="color: #098658">0</span><span style="color: #000000">];</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">_search</span><span style="color: #000000">;</span>
+<span style="color: #000000">  })();</span>
+
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> [</span>
+<span style="color: #000000">    {</span>
+<span style="color: #000000">      </span><span style="color: #001080">method:</span><span style="color: #000000"> </span><span style="color: #001080">httpMethod</span><span style="color: #000000">,</span>
+<span style="color: #000000">      </span><span style="color: #001080">pathname:</span><span style="color: #000000"> </span><span style="color: #001080">path</span><span style="color: #000000"> || </span><span style="color: #A31515">&#039;/&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">      </span><span style="color: #001080">search</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">    </span><span style="color: #001080">payload</span>
+<span style="color: #000000">  ];</span>
+<span style="color: #000000">}</span>
+
 </code></pre>
 			</div>
 		</div>
@@ -129,6 +145,9 @@
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>

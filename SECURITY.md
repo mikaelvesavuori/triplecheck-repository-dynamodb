@@ -7,7 +7,6 @@ These versions of `triplecheck-repository-dynamodb` are currently being supporte
 | Version | Supported |
 | ------- | --------- |
 | 1.x.x   | :x:       |
-| 0.x.x   | :x:       |
 
 ## Reporting a Vulnerability
 

@@ -1,10 +1,13 @@
 {
   "name": "triplecheck-repository-dynamodb",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Database utility for using DynamoDB with TripleCheck broker.",
   "main": "build/index.js",
   "keywords": [
     "triplecheck",
+    "triplecheck-repository",
+    "dynamo",
+    "dynamodb",
     "contract-testing",
     "consumer-contracts",
     "pacts"
@@ -24,12 +27,12 @@
     "docs": "npx typedoc src"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.15.0",
-    "triplecheck-core": "^0.0.1"
+    "@aws-sdk/client-dynamodb": "^3.16.0",
+    "triplecheck-core": "latest"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
-    "@types/node": "^15.0.3",
+    "@types/node": "^15.3.0",
     "arkit": "^1.6.4",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",

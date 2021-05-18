@@ -1,10 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DynamoRepository = void 0;
+exports.DynamoRepository = exports.createNewDynamoRepository = void 0;
 const tslib_1 = require("tslib");
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const docClient = new client_dynamodb_1.DynamoDBClient({ region: process.env.REGION || 'eu-north-1' });
-const TABLE_NAME = process.env.TABLE_NAME || 'broker-demo';
+const TABLE_NAME = process.env.TABLE_NAME || 'broker-database';
+function createNewDynamoRepository() {
+    return new DynamoRepository();
+}
+exports.createNewDynamoRepository = createNewDynamoRepository;
 class DynamoRepository {
     getData(key) {
         var _a, _b;

@@ -11,6 +11,10 @@ import {
 const docClient = new DynamoDBClient({ region: process.env.REGION || 'eu-north-1' });
 const TABLE_NAME = process.env.TABLE_NAME || 'broker-database';
 
+export function createNewDynamoRepository() {
+  return new DynamoRepository();
+}
+
 export class DynamoRepository implements Repository {
   async getData(key: string): Promise<any> {
     const params = {
