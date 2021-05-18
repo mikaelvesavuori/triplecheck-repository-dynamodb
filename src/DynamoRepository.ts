@@ -15,7 +15,7 @@ export function createNewDynamoRepository() {
   return new DynamoRepository();
 }
 
-export class DynamoRepository implements Repository {
+class DynamoRepository implements Repository {
   async getData(key: string): Promise<any> {
     const params = {
       TableName: TABLE_NAME,

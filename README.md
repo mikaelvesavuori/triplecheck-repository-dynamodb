@@ -6,6 +6,10 @@
 
 Database utility for using DynamoDB with TripleCheck broker. It implements the repository base at [triplecheck-core](https://github.com/mikaelvesavuori/triplecheck-core).
 
+## Instructions
+
+You will need to have a pre-existing DynamoDB table. Use `id` (String type) as the primary partition key.
+
 ## Basic implementation
 
 In your `triplecheck-broker` implementation, do a regular import for `triplecheck-repository-dynamodb` and pass the repository to the broker. In a Lambda context, an implementation could look like:

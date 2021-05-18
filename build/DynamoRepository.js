@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DynamoRepository = exports.createNewDynamoRepository = void 0;
+exports.createNewDynamoRepository = void 0;
 const tslib_1 = require("tslib");
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const docClient = new client_dynamodb_1.DynamoDBClient({ region: process.env.REGION || 'eu-north-1' });
@@ -55,5 +55,4 @@ class DynamoRepository {
         });
     }
 }
-exports.DynamoRepository = DynamoRepository;
 //# sourceMappingURL=DynamoRepository.js.map
