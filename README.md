@@ -15,7 +15,7 @@ import { TripleCheckBroker } from 'triplecheck-broker';
 import { DynamoRepository } from 'triplecheck-repository-dynamodb';
 
 export async function handler(event: any) {
-  const repository = new DynamoRepository();
+  const repository = DynamoRepository();
 
   const [request, payload] = await getRequestData(event);
 
