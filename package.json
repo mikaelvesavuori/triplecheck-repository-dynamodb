@@ -1,6 +1,6 @@
 {
   "name": "triplecheck-repository-dynamodb",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Database utility for using DynamoDB with TripleCheck broker.",
   "main": "build/index.js",
   "keywords": [
